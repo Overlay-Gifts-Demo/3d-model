@@ -1,42 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <meta charset="UTF-8">
+  <title>AR Jewelry Try-On</title>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5/pose.js"></script>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    video { transform: scaleX(-1); width: 640px; height: 480px; }
+    canvas { position: absolute; top: 0; left: 0; width: 640px; height: 480px; }
+    #jewelrySelect { position: absolute; top: 20px; left: 20px; }
+  </style>
 </head>
 <body>
-    <a-scene
-        mindar-image="imageTargetSrc: ./targets.mind"
-        color-space="sRGB"
-        renderer="colorManagement: true, physicallyCorrectLights"
-        vr-mode-ui="enabled: false"
-        device-orientation-permission-ui="enabled: false">
+  <video id="video" autoplay playsinline></video>
+  <canvas id="canvas"></canvas>
+  
+  <!-- Dropdown for jewelry selection -->
+  <select id="jewelrySelect">
+    <option value="necklace">Necklace</option>
+    <option value="earrings">Earrings</option>
+    <option value="ring">Ring</option>
+  </select>
 
-        <a-assets>
-            <a-asset-item id="jewelryModel" src="ring.glb"></a-asset-item>
-        </a-assets>
-
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-        <!-- AR Target -->
-        <a-entity id="target1" mindar-image-target="targetIndex: 0">
-            <!-- 3D Model Display -->
-            <a-entity id="modelDisplay" gltf-model="#jewelryModel" position="0 0 0" scale="0.5 0.5 0.5" visible="false"></a-entity>
-        </a-entity>
-    </a-scene>
-
-    <script>
-        const modelDisplay = document.querySelector('#modelDisplay');
-        const target1 = document.querySelector('#target1');
-
-        target1.addEventListener('targetFound', () => {
-            modelDisplay.setAttribute('visible', 'true');
-        });
-
-        target1.addEventListener('targetLost', () => {
-            modelDisplay.setAttribute('visible', 'false');
-        });
-    </script>
+  <script src="/script.js"></script>
 </body>
 </html>
